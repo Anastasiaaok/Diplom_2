@@ -1,5 +1,6 @@
 package api;
 
+import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
@@ -9,6 +10,7 @@ public class OrderClient {
 
     private static final String ORDER = "/api/orders";
 
+    @Step("Создание заказа")
     public Response createOrder(String body) {
         return given()
                 .contentType(ContentType.JSON)

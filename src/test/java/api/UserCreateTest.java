@@ -43,16 +43,34 @@ public class UserCreateTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("Создание без обязательного поля")
+    @DisplayName("Создание без email")
     @Description("Ошибка при отсутствии email")
     public void createUserWithoutEmail() {
-        User userWithoutEmail = new User(
-                null,
-                user.getPassword(),
-                user.getName()
-        );
+        User u = new User(null, user.getPassword(), user.getName());
 
-        userClient.createUser(userWithoutEmail)
+        userClient.createUser(u)
+                .then()
+                .statusCode(403);
+    }
+
+    @Test
+    @DisplayName("Создание без пароля")
+    @Description("Ошибка при отсутствии пароля")
+    public void createUserWithoutPassword() {
+        User u = new User(user.getEmail(), null, user.getName());
+
+        userClient.createUser(u)
+                .then()
+                .statusCode(403);
+    }
+
+    @Test
+    @DisplayName("Создание без имени")
+    @Description("Ошибка при отсутствии имени")
+    public void createUserWithoutName() {
+        User u = new User(user.getEmail(), user.getPassword(), null);
+
+        userClient.createUser(u)
                 .then()
                 .statusCode(403);
     }
